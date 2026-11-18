@@ -21,7 +21,7 @@ window.STORE_CONFIG = {
 
   // 1) Formspree (free): make a form at https://formspree.io and paste its endpoint,
   //    e.g. "https://formspree.io/f/abcdwxyz". Orders arrive in your email.
-  formEndpoint: "",
+  formEndpoint: "https://formspree.io/f/xvkarvpe",
 
   // 2) Email fallback: opens the buyer's email app with the order filled in.
   orderEmail: "",
