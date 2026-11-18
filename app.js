@@ -189,7 +189,10 @@
 
   // ---------- checkout ----------
   const modal = $("#checkout"), form = $("#orderForm");
-  $("#payNote").textContent = CFG.paymentLink ? "After placing your order you'll be taken to the payment page." : CFG.payInstructions;
+  const canPay = !!(CFG.paypalClientId || CFG.stripePaymentLink);
+  $("#payNote").textContent = canPay
+    ? "Next you'll pay with " + [CFG.paypalClientId && "PayPal", CFG.stripePaymentLink && "Apple Pay"].filter(Boolean).join(", ") + " or a debit/credit card."
+    : CFG.payInstructions;
   $("#goCheckout").addEventListener("click", () => {
     if (!cart.length) return;
     closeCart();
@@ -254,14 +257,81 @@
     btn.disabled = false; btn.textContent = "Place order";
 
     $("#orderNum").textContent = orderNum;
-    $("#confirmMsg").textContent = CFG.paymentLink
-      ? `Total: ${order.total}. Opening the payment page now — please include your order number.`
+    $("#confirmTitle").textContent = canPay ? "Almost done — time to pay! 🕎" : "Toda raba! Order placed 🎉";
+    $("#confirmMsg").textContent = canPay
+      ? `We've got your order. Pay below to finish it up.`
       : `Total: ${order.total}. ${CFG.payInstructions}`;
     $("#checkoutForm").hidden = true; $("#confirmation").hidden = false;
     gelt(innerWidth / 2, innerHeight / 3, 40);
+    const paying = { ...order, amount: total().toFixed(2) };
     cart = []; save(); form.reset(); $(".addr", form).hidden = true;
-    if (CFG.paymentLink) setTimeout(() => window.open(CFG.paymentLink, "_blank", "noopener"), 900);
+    showPayment(paying);
   });
+
+  // ---------- payment ----------
+  function notify(data) {
+    if (!CFG.formEndpoint) return Promise.resolve();
+    return fetch(CFG.formEndpoint, {
+      method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(data),
+    }).catch(() => {});
+  }
+  function paid(order, how) {
+    $("#payBox").hidden = true;
+    $("#confirmTitle").textContent = "Paid! Toda raba! 🎉";
+    $("#confirmMsg").textContent = `Thanks, ${order.name.split(" ")[0]}! Your ${order.total} payment went through. Chag sameach!`;
+    gelt(innerWidth / 2, innerHeight / 3, 50);
+    notify({ order: order.order, status: "PAID", method: how, total: order.total, name: order.name, email: order.email });
+  }
+  let paypalLoading = null;
+  function loadPayPal() {
+    if (window.paypal) return Promise.resolve();
+    if (!paypalLoading) paypalLoading = new Promise((ok, fail) => {
+      const s = document.createElement("script");
+      s.src = "https://www.paypal.com/sdk/js?client-id=" + encodeURIComponent(CFG.paypalClientId) +
+              "&currency=USD&components=buttons&enable-funding=card";
+      s.onload = ok; s.onerror = fail;
+      document.head.appendChild(s);
+    });
+    return paypalLoading;
+  }
+  function showPayment(order) {
+    const box = $("#payBox");
+    box.hidden = !canPay;
+    if (!canPay) return;
+    $("#payTotal").textContent = order.total;
+
+    const ppWrap = $("#paypalButtons");
+    ppWrap.innerHTML = "";
+    if (CFG.paypalClientId) {
+      ppWrap.innerHTML = `<p class="fine">Loading PayPal…</p>`;
+      loadPayPal().then(() => {
+        ppWrap.innerHTML = "";
+        window.paypal.Buttons({
+          style: { layout: "vertical", shape: "pill", color: "gold", label: "pay" },
+          createOrder: (_, actions) => actions.order.create({
+            purchase_units: [{
+              description: `Hanukkah Twister x${order.quantity}`,
+              invoice_id: order.order,
+              amount: { currency_code: "USD", value: order.amount },
+            }],
+          }),
+          onApprove: (_, actions) => actions.order.capture().then(() => paid(order, "PayPal")),
+          onError: () => { ppWrap.insertAdjacentHTML("beforeend", `<p class="form-error">PayPal had a problem. Please try again.</p>`); },
+        }).render(ppWrap);
+      }).catch(() => { ppWrap.innerHTML = `<p class="form-error">Couldn't load PayPal. Check your connection and try again.</p>`; });
+    }
+
+    const sBtn = $("#stripeBtn");
+    sBtn.hidden = $("#stripeNote").hidden = !CFG.stripePaymentLink;
+    if (CFG.stripePaymentLink) {
+      const u = new URL(CFG.stripePaymentLink);
+      u.searchParams.set("client_reference_id", order.order);
+      u.searchParams.set("prefilled_email", order.email);
+      sBtn.href = u.toString();
+      $("#stripeQty").textContent = order.quantity;
+    }
+  }
 
   // ---------- fun bits ----------
   let toastTimer;

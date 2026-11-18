@@ -203,10 +203,21 @@
 
       <div id="confirmation" hidden>
         <div class="confetti-star" aria-hidden="true">✡</div>
-        <h2>Toda raba! Order placed 🎉</h2>
+        <h2 id="confirmTitle">Toda raba! Order placed 🎉</h2>
         <p>Your order number is <b id="orderNum"></b>.</p>
         <p id="confirmMsg"></p>
-        <button class="btn btn-gold" id="doneBtn">Back to the store</button>
+
+        <div class="pay-box" id="payBox" hidden>
+          <h3>Pay <span id="payTotal"></span></h3>
+          <div id="paypalButtons"></div>
+          <a class="btn btn-pay" id="stripeBtn" href="#" target="_blank" rel="noopener" hidden>
+            <span aria-hidden="true"></span> Pay with Apple Pay or card
+          </a>
+          <p class="fine" id="stripeNote" hidden>Opens a secure Stripe page. Set the quantity there to <b id="stripeQty"></b>.</p>
+          <p class="fine">🔒 Card details are entered on PayPal's or Stripe's secure page — never on this site.</p>
+        </div>
+
+        <button class="btn btn-ghost" id="doneBtn">Back to the store</button>
       </div>
     </div>
   </div>

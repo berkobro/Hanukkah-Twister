@@ -23,13 +23,21 @@ window.STORE_CONFIG = {
   //    e.g. "https://formspree.io/f/abcdwxyz". Orders arrive in your email.
   formEndpoint: "",
 
-  // 2) Payment link (Stripe Payment Link, PayPal.me, Venmo, etc.).
-  //    After the order is recorded, the buyer is sent here to pay.
-  paymentLink: "",
-
-  // 3) Email fallback: opens the buyer's email app with the order filled in.
+  // 2) Email fallback: opens the buyer's email app with the order filled in.
   orderEmail: "",
 
-  // Shown on the checkout screen when there's no payment link.
+  // ---- Payments (shown after the order is placed; use either or both) ----
+
+  // PayPal: buyers pay with PayPal or a debit/credit card, for the exact cart total.
+  // Get a Client ID at https://developer.paypal.com → Apps & Credentials → Live → Create App.
+  // ("test" shows PayPal's practice sandbox — no real money.)
+  paypalClientId: "",
+
+  // Stripe Payment Link: Apple Pay, Google Pay and debit/credit cards.
+  // In Stripe: Payment Links → New → product "Hanukkah Twister" at your price,
+  // turn ON "Let customers adjust quantity", then paste the link here.
+  stripePaymentLink: "",
+
+  // Shown on the checkout screen when no payment option is set up.
   payInstructions: "We'll reach out to arrange payment and pickup. Cash, Venmo and Zelle welcome.",
 };
