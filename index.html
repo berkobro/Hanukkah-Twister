@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hanukkah Twister</title>
+  <meta name="description" content="Hanukkah Twister — a spinning, corkscrewing star fidget toy. Every one sold supports our Hanukkah fundraiser.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%A1%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="sky" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <a href="#top" class="brand">
+      <span class="brand-star" aria-hidden="true">✡</span>
+      <span>Hanukkah <em>Twister</em></span>
+    </a>
+    <nav class="nav">
+      <a href="#about">What it does</a>
+      <a href="#shop">Shop</a>
+      <a href="#fundraiser">Fundraiser</a>
+    </nav>
+    <button class="cart-btn" id="openCart" aria-label="Open cart">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM5.2 4l.4 2H20a1 1 0 0 1 1 1.2l-1.4 7a2 2 0 0 1-2 1.8H8.1a2 2 0 0 1-2-1.6L3.6 2H1V0h4a1 1 0 0 1 1 .8L6.2 4Z" transform="translate(0 1)"/></svg>
+      <span>Cart</span>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">A Hanukkah fundraiser · Eight nights of fidgeting</p>
+        <h1>Push it. Drop it. <span class="shine">Watch it spin.</span></h1>
+        <p class="lede">Meet the <strong>Hanukkah Twister</strong> — six nested star rings that corkscrew out into a spinning tower and twist right back down flat. It's a dreidel, a Star of David and a fidget toy all in one.</p>
+        <div class="hero-actions">
+          <button class="btn btn-gold" data-scroll="#shop">Get yours — <span class="price-tag"></span></button>
+          <button class="btn btn-ghost" id="heroSpin">Give it a twist ↻</button>
+        </div>
+        <ul class="hero-badges">
+          <li>✡ 7 pieces, one toy</li>
+          <li>🕎 Made for Hanukkah</li>
+          <li>💙 Supports our cause</li>
+        </ul>
+      </div>
+      <div class="hero-stage">
+        <div class="stage-glow" aria-hidden="true"></div>
+        <div class="orbit" aria-hidden="true"><span>✦</span><span>✦</span><span>✦</span><span>✦</span></div>
+        <div class="photo-stack" id="photoStack">
+          <img src="images/twister-flat.png" alt="Hanukkah Twister lying flat: six nested blue and white six-point stars" class="photo photo-flat" width="573" height="573">
+          <img src="images/twister-tower.png" alt="Hanukkah Twister extended into a spiraling blue and white tower" class="photo photo-tower" width="532" height="532">
+        </div>
+        <div class="toggle" role="group" aria-label="Show the Twister flat or extended">
+          <button type="button" class="toggle-btn is-on" data-pose="flat">Flat star</button>
+          <button type="button" class="toggle-btn" data-pose="tower">Spun-out tower</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <div class="section-head">
+        <p class="eyebrow">What it is</p>
+        <h2>A star that turns into a tower</h2>
+        <p>The Hanukkah Twister is a hand-sized fidget toy shaped like a six-point star. It's made of a solid center and six star-shaped rings, all nested inside each other. Every ring is twisted like a screw, so whenever the rings slide, they <strong>spin</strong>.</p>
+      </div>
+
+      <div class="moves">
+        <article class="move">
+          <div class="move-num">1</div>
+          <h3>Push the center up</h3>
+          <p>Press the middle from underneath and the rings spin and corkscrew out, one after another, into a spiraling cone.</p>
+        </article>
+        <article class="move">
+          <div class="move-num">2</div>
+          <h3>Let gravity do it</h3>
+          <p>Hold the outer ring and let go of the rest. The rings whirl downward on their own and hang in a spinning cone — like a dreidel that never falls over.</p>
+        </article>
+        <article class="move">
+          <div class="move-num">3</div>
+          <h3>Press it flat</h3>
+          <p>Push the rings back in and they twist home, lying flat as a Star of David again. Then do it all over. And over. (Eight nights is just the start.)</p>
+        </article>
+      </div>
+
+      <div class="before-after">
+        <figure><img src="images/twister-flat.png" alt="" loading="lazy"><figcaption>Flat in your pocket…</figcaption></figure>
+        <div class="arrow" aria-hidden="true">↻</div>
+        <figure><img src="images/twister-tower.png" alt="" loading="lazy"><figcaption>…a spinning tower in your hand.</figcaption></figure>
+      </div>
+
+      <div class="facts">
+        <div class="fact"><b>~97 mm</b><span>tip to tip — fits in your palm</span></div>
+        <div class="fact"><b>12 mm</b><span>thin when flat — slips in a pocket</span></div>
+        <div class="fact"><b>7</b><span>pieces that never come apart</span></div>
+        <div class="fact"><b>6</b><span>star points, just like the Magen David</span></div>
+      </div>
+
+      <p class="good-for">Great for: restless hands in class or shul, Hanukkah gifts, stocking-free stuffers, gelt-bag add-ons, and anyone who can't stop clicking their pen.</p>
+    </section>
+
+    <!-- SHOP -->
+    <section class="shop" id="shop">
+      <div class="product-card">
+        <div class="product-visual">
+          <img src="images/twister-flat.png" id="productImg" alt="Hanukkah Twister in the selected color" width="573" height="573">
+          <p class="swatch-name" id="swatchName"></p>
+        </div>
+        <div class="product-info">
+          <p class="eyebrow">The Hanukkah Twister</p>
+          <h2>Pick your colors</h2>
+          <p class="price-big"><span class="price-tag"></span> <small>each</small></p>
+
+          <fieldset class="swatches" id="swatches">
+            <legend>Color</legend>
+          </fieldset>
+
+          <div class="qty-row">
+            <span class="qty-label">Quantity</span>
+            <div class="qty" role="group" aria-label="Quantity">
+              <button type="button" id="qtyMinus" aria-label="Decrease quantity">−</button>
+              <output id="qty">1</output>
+              <button type="button" id="qtyPlus" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+          <button class="btn btn-gold btn-wide" id="addToCart">Add to cart</button>
+          <p class="fine">Every Twister sold goes toward our Hanukkah fundraiser. Thank you for helping out!</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FUNDRAISER / MENORAH -->
+    <section class="fundraiser" id="fundraiser">
+      <div class="section-head">
+        <p class="eyebrow">Light up the menorah</p>
+        <h2>Every Twister lights a candle</h2>
+        <p id="causeText">Each Hanukkah Twister in your cart lights one candle. Fill all eight and you've lit up the whole menorah for our fundraiser!</p>
+      </div>
+      <div class="menorah" id="menorah" aria-live="polite"></div>
+      <p class="menorah-caption" id="menorahCaption"></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p><span class="brand-star">✡</span> Hanukkah Twister · Chag Urim Sameach — Happy Festival of Lights!</p>
+    <p class="fine">Small parts — not for children under 3.</p>
+  </footer>
+
+  <!-- CART DRAWER -->
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="drawer" id="cartDrawer" aria-label="Shopping cart" aria-hidden="true">
+    <div class="drawer-head">
+      <h2>Your cart</h2>
+      <button class="icon-btn" id="closeCart" aria-label="Close cart">✕</button>
+    </div>
+    <div class="drawer-body" id="cartItems"></div>
+    <div class="drawer-foot">
+      <div class="total-row"><span>Total</span><b id="cartTotal">$0.00</b></div>
+      <button class="btn btn-gold btn-wide" id="goCheckout">Checkout</button>
+    </div>
+  </aside>
+
+  <!-- CHECKOUT -->
+  <div class="modal" id="checkout" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle" hidden>
+    <div class="modal-card">
+      <button class="icon-btn modal-close" id="closeCheckout" aria-label="Close checkout">✕</button>
+
+      <div id="checkoutForm">
+        <h2 id="checkoutTitle">Checkout</h2>
+        <div class="checkout-grid">
+          <form id="orderForm" novalidate>
+            <label>Full name<input name="name" autocomplete="name" required></label>
+            <label>Email<input name="email" type="email" autocomplete="email" required></label>
+            <label>Phone <small>(optional)</small><input name="phone" type="tel" autocomplete="tel"></label>
+
+            <fieldset class="radio-set">
+              <legend>How do you want it?</legend>
+              <label class="radio"><input type="radio" name="delivery" value="pickup" checked> Pick up</label>
+              <label class="radio"><input type="radio" name="delivery" value="delivery"> Local delivery</label>
+            </fieldset>
+
+            <label class="addr" hidden>Delivery address<textarea name="address" rows="2" autocomplete="street-address"></textarea></label>
+            <label>Note or gift message <small>(optional)</small><textarea name="note" rows="2"></textarea></label>
+
+            <p class="form-error" id="formError" role="alert"></p>
+            <button class="btn btn-gold btn-wide" type="submit" id="placeOrder">Place order</button>
+            <p class="fine" id="payNote"></p>
+          </form>
+
+          <div class="summary">
+            <h3>Order summary</h3>
+            <ul id="summaryItems"></ul>
+            <div class="total-row"><span>Total</span><b id="summaryTotal">$0.00</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="confirmation" hidden>
+        <div class="confetti-star" aria-hidden="true">✡</div>
+        <h2>Toda raba! Order placed 🎉</h2>
+        <p>Your order number is <b id="orderNum"></b>.</p>
+        <p id="confirmMsg"></p>
+        <button class="btn btn-gold" id="doneBtn">Back to the store</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
